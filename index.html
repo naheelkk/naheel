@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naheel K K | Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --primary: #fbbf24;
+            --bg: #000000;
+            --text: #f4f4f5;
+            --border: #27272a;
+            --accent-glow: rgba(251, 191, 36, 0.1);
+        }
+
+        .light-theme {
+            --primary: #000000;
+            --bg: #ffffff;
+            --text: #18181b;
+            --border: #e4e4e7;
+            --accent-glow: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.5s, color 0.5s;
+            overflow-x: hidden;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Perspective Grid Animation */
+        .grid-container {
+            perspective: 800px;
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        .grid-plane {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(var(--border) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, var(--border) 1.5px, transparent 1.5px);
+            background-size: 60px 60px;
+            transform: rotateX(65deg);
+            animation: grid-move 12s linear infinite;
+        }
+
+        @keyframes grid-move {
+            from { transform: rotateX(65deg) translateY(0); }
+            to { transform: rotateX(65deg) translateY(60px); }
+        }
+
+        /* Runner Animation (Visual/Superhero Style) */
+        .runner {
+            width: 24px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 4px;
+            position: relative;
+            animation: bounce 0.5s infinite alternate;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-12px); }
+        }
+
+        .runner-track {
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            width: 200%;
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Photo Frame & Image Handling */
+        .photo-frame {
+            position: relative;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            padding: 8px;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px -12px var(--accent-glow);
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
+        .image-container.loading::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: loading-shimmer 1.5s infinite;
+        }
+
+        @keyframes loading-shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .fallback-icon {
+            display: none;
+            color: var(--border);
+        }
+
+        .image-error .fallback-icon {
+            display: block;
+        }
+        .image-error img {
+            display: none;
+        }
+
+        /* Section Reveal */
+        .section-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary);
+            z-index: 100;
+            width: 0%;
+        }
+
+        /* Scroll Bar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--border);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+    </style>
+</head>
+<body class="dark-theme">
+    <div id="progress"></div>
+
+    <!-- Background Elements -->
+    <div class="grid-container">
+        <div class="grid-plane"></div>
+    </div>
+
+    <!-- Background Runner (Superhero Visual) -->
+    <div class="fixed bottom-12 left-0 w-full overflow-hidden z-0 opacity-10 pointer-events-none">
+        <div class="runner-track">
+            <div class="flex space-x-64 px-32">
+                <div class="flex flex-col items-center"><div class="runner"></div></div>
+                <div class="flex flex-col items-center"><div class="runner"></div></div>
+                <div class="flex flex-col items-center"><div class="runner"></div></div>
+            </div>
+            <div class="flex space-x-64 px-32">
+                <div class="flex flex-col items-center"><div class="runner"></div></div>
+                <div class="flex flex-col items-center"><div class="runner"></div></div>
+                <div class="flex flex-col items-center"><div class="runner"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md border-b border-[var(--border)] bg-[var(--bg)]/80">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-4 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-10 h-10 bg-[var(--text)] text-[var(--bg)] flex items-center justify-center font-black rounded-xl border border-[var(--border)] group-hover:bg-yellow-400 transition-colors">
+                    N
+                </div>
+                <span class="font-extrabold tracking-tighter uppercase text-sm hidden sm:block">Naheel K K</span>
+            </div>
+            
+            <div class="flex items-center space-x-8">
+                <div class="hidden md:flex space-x-10 text-[10px] font-black tracking-[0.2em] uppercase">
+                    <a href="#home" class="hover:text-yellow-500 transition-colors">Home</a>
+                    <a href="#about" class="hover:text-yellow-500 transition-colors">About</a>
+                    <a href="#projects" class="hover:text-yellow-500 transition-colors">Projects</a>
+                    <a href="#contact" class="hover:text-yellow-500 transition-colors">Contact</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2.5 border border-[var(--border)] rounded-xl hover:border-yellow-500 transition-all bg-[var(--bg)]">
+                        <i data-lucide="sun" class="w-4 h-4" id="theme-icon"></i>
+                    </button>
+                    <a href="#" class="bg-yellow-400 text-black px-6 py-2.5 rounded-full text-[10px] font-black tracking-widest hover:scale-105 transition-transform">
+                        RESUME
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 relative z-10">
+        
+        <!-- Hero Section -->
+        <section id="home" class="min-h-[calc(100vh-80px)] flex flex-col lg:flex-row items-center justify-center gap-16 py-20 section-fade visible">
+            <div class="flex-1 space-y-10">
+                <div class="inline-flex items-center space-x-3 px-4 py-1.5 border border-[var(--border)] rounded-full bg-[var(--border)]/10 text-[10px] font-black tracking-[0.3em] uppercase text-yellow-500">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                    </span>
+                    <span>Systems Architect</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] uppercase italic">
+                    Reliable <br>
+                    <span class="text-transparent" style="-webkit-text-stroke: 1.5px var(--text);">Software</span> <br>
+                    Design.
+                </h1>
+
+                <p class="max-w-xl text-lg text-gray-500 leading-relaxed font-medium">
+                    Hello, I'm Naheel. I am an aspiring software engineer currently pursuing my MCA. I am dedicated to building efficient, scalable, and meaningful software solutions for the modern web.
+                </p>
+
+                <div class="flex flex-wrap gap-6 pt-4">
+                    <a href="#projects" class="bg-yellow-400 text-black px-10 py-5 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-yellow-400/20 transition-all">
+                        VIEW PROJECTS
+                        <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                    </a>
+                    <div class="flex space-x-3">
+                        <a href="https://github.com/naheelkk" target="_blank" class="p-5 border border-[var(--border)] rounded-xl hover:border-yellow-500 hover:bg-yellow-400/5 transition-all">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/naheel-kk/" target="_blank" class="p-5 border border-[var(--border)] rounded-xl hover:border-yellow-500 hover:bg-yellow-400/5 transition-all">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 flex justify-center lg:justify-end">
+                <div class="photo-frame max-w-sm w-full">
+                    <div id="image-wrapper" class="image-container loading">
+                        <img src="image_cd6a6e.jpg" alt="Naheel K K" id="hero-img" class="transition-all duration-700">
+                        <div class="fallback-icon">
+                            <i data-lucide="user" class="w-32 h-32 opacity-20"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-40 section-fade">
+            <div class="flex flex-col md:flex-row gap-24">
+                <div class="md:w-1/3 space-y-8">
+                    <h2 class="text-5xl font-black uppercase italic tracking-tighter leading-none">The <br>Academic <br>Arc.</h2>
+                    <p class="text-gray-500 font-bold uppercase tracking-widest text-xs leading-loose">A sequential log of my developmental training and specialization.</p>
+                    <div class="w-16 h-1 bg-yellow-400"></div>
+                </div>
+                
+                <div class="md:w-2/3 space-y-16 relative border-l-2 border-[var(--border)] pl-10">
+                    <!-- PG -->
+                    <div class="relative group">
+                        <div class="absolute -left-[49px] top-1.5 w-6 h-6 bg-yellow-400 rounded-full border-4 border-[var(--bg)] shadow-[0_0_20px_rgba(250,204,21,0.3)] group-hover:scale-125 transition-transform"></div>
+                        <div class="space-y-3">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                                <h3 class="text-3xl font-black uppercase tracking-tight italic">MCA Graduate Studies</h3>
+                                <span class="mono text-yellow-500 text-sm font-black bg-yellow-400/5 px-3 py-1 rounded">2024 - 2026</span>
+                            </div>
+                            <p class="text-sm font-black text-gray-500 uppercase tracking-[0.2em]">MES College of Engineering, Kuttippuram (KTU)</p>
+                            <p class="text-gray-500 leading-relaxed max-w-xl font-medium">Currently specializing in advanced computing paradigms, software architecture, and artificial intelligence.</p>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-yellow-400 text-black text-[10px] font-black rounded uppercase italic">Current CGPA: 8.7</div>
+                        </div>
+                    </div>
+
+                    <!-- UG -->
+                    <div class="relative group">
+                        <div class="absolute -left-[49px] top-1.5 w-6 h-6 bg-[var(--border)] rounded-full border-4 border-[var(--bg)] group-hover:bg-yellow-400 transition-colors"></div>
+                        <div class="space-y-3">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                                <h3 class="text-3xl font-black uppercase tracking-tight italic">B.Voc Software Development</h3>
+                                <span class="mono text-gray-500 text-sm font-black">2021 - 2024</span>
+                            </div>
+                            <p class="text-sm font-black text-gray-500 uppercase tracking-[0.2em]">Farook College</p>
+                            <p class="text-gray-500 leading-relaxed max-w-xl font-medium">Focused on full-stack engineering, agile methodologies, and database system optimization.</p>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 border border-[var(--border)] text-gray-500 text-[10px] font-black rounded uppercase italic">Final CGPA: 9.25</div>
+                        </div>
+                    </div>
+
+                    <!-- HSS -->
+                    <div class="relative group">
+                        <div class="absolute -left-[49px] top-1.5 w-6 h-6 bg-[var(--border)] rounded-full border-4 border-[var(--bg)] group-hover:bg-yellow-400 transition-colors"></div>
+                        <div class="space-y-3">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                                <h3 class="text-3xl font-black uppercase tracking-tight italic">Higher Secondary Arc</h3>
+                                <span class="mono text-gray-500 text-sm font-black">2019 - 2021</span>
+                            </div>
+                            <p class="text-sm font-black text-gray-500 uppercase tracking-[0.2em]">GHSS THRIKKAVU</p>
+                            <p class="text-gray-500 leading-relaxed max-w-xl font-medium">Foundation in Computer Science and Natural Sciences (Biology/Maths/Physics/Chemistry).</p>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 border border-[var(--border)] text-gray-500 text-[10px] font-black rounded uppercase italic">Aggregate: 97%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-40 section-fade">
+            <div class="flex items-center gap-6 mb-20">
+                <h2 class="text-5xl font-black uppercase italic tracking-tighter">Selected Projects.</h2>
+                <div class="flex-grow h-px bg-[var(--border)]"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-2xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
+                    <div class="flex justify-between items-start mb-10">
+                        <div class="p-4 bg-yellow-400 text-black rounded-xl">
+                            <i data-lucide="terminal" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">RUST</span>
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">WASM</span>
+                        </div>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">Kernel Terminal</h3>
+                    <p class="text-gray-500 mb-10 leading-relaxed font-medium">High-performance terminal emulator exploring low-level system interactions and memory management.</p>
+                    <a href="https://github.com/naheelkk" target="_blank" class="inline-flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all">
+                        SOURCE_CODE
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-yellow-500"></i>
+                    </a>
+                </div>
+
+                <div class="group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-2xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
+                    <div class="flex justify-between items-start mb-10">
+                        <div class="p-4 bg-[var(--text)] text-[var(--bg)] rounded-xl">
+                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">NODE</span>
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">AES</span>
+                        </div>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">Cyber-Vault</h3>
+                    <p class="text-gray-500 mb-10 leading-relaxed font-medium">Secure credential management system utilizing hardware-accelerated encryption layers.</p>
+                    <a href="https://github.com/naheelkk" target="_blank" class="inline-flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all">
+                        SOURCE_CODE
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-yellow-500"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-40 section-fade border-t border-[var(--border)]">
+            <div class="max-w-4xl mx-auto text-center space-y-12">
+                <h2 class="text-7xl md:text-9xl font-black uppercase italic tracking-tighter leading-[0.8] mb-4">UPLINK?</h2>
+                <p class="text-gray-500 text-lg uppercase tracking-[0.4em] font-black">kknaheel16@gmail.com</p>
+                
+                <div class="flex flex-col items-center gap-10 pt-8">
+                    <a href="mailto:kknaheel16@gmail.com" class="bg-yellow-400 text-black px-16 py-6 rounded-xl text-xs font-black tracking-[0.3em] hover:scale-105 transition-transform flex items-center gap-4 shadow-2xl shadow-yellow-400/20">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                        SEND MESSAGE
+                    </a>
+                    
+                    <div class="flex flex-wrap justify-center gap-x-16 gap-y-6 pt-16 text-[10px] font-black tracking-[0.3em] uppercase opacity-40">
+                        <a href="https://github.com/naheelkk" class="hover:text-yellow-500 hover:opacity-100 transition-all">GitHub</a>
+                        <a href="https://www.linkedin.com/in/naheel-kk/" class="hover:text-yellow-500 hover:opacity-100 transition-all">LinkedIn</a>
+                        <a href="#" class="hover:text-yellow-500 hover:opacity-100 transition-all">Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-16 text-center text-[9px] font-black tracking-[0.3em] uppercase opacity-20">
+        &copy; 2024 NAHEEL K K. ALL SYSTEMS NOMINAL.
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Theme Toggle Logic
+        const body = document.body;
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            themeIcon.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+            lucide.createIcons();
+        });
+
+        // Scroll Progress & Reveal
+        window.onscroll = () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress").style.width = scrolled + "%";
+
+            document.querySelectorAll('.section-fade').forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < window.innerHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        };
+
+        // Smooth Scroll Logic
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                
+                // If the link is just a hash "#", scroll to top
+                if (href === '#') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+
+                // Otherwise, try to scroll to the target ID
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Robust Image Loading & Fallback
+        const img = document.getElementById('hero-img');
+        const wrapper = document.getElementById('image-wrapper');
+
+        if (img) {
+            img.onload = () => {
+                wrapper.classList.remove('loading');
+            };
+
+            img.onerror = () => {
+                wrapper.classList.remove('loading');
+                wrapper.classList.add('image-error');
+            };
+
+            if (img.complete) {
+                wrapper.classList.remove('loading');
+            }
+        }
+    </script>
+</body>
+</html>
