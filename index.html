@@ -161,27 +161,22 @@
         }
 
  
-  .image-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); 
-            border-radius: 16px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
+.image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;   /* 🔥 key fix */
+    background: #111;
+    border-radius: 16px;
+    overflow: hidden;
+}
 
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            border-radius: 16px;
-            transition: all 0.5s ease;
-        }
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     /* 🔥 important */
+    object-position: center;
+}
 
         .photo-frame:hover img {
             transform: scale(1.05);
