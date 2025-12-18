@@ -163,8 +163,8 @@
         .image-container {
             position: relative;
             width: 100%;
-            /* Optimized for portrait photos */
-            aspect-ratio: 3/4; 
+            /* Adjusted for better fit */
+            height: auto; 
             background: #111; 
             border-radius: 16px;
             overflow: hidden;
@@ -177,10 +177,8 @@
         .image-container img {
             width: 100%;
             height: 100%;
-            /* Ensures image covers the area fully */
-            object-fit: cover;
-            /* Focus on the top center of the image (good for headshots) */
-            object-position: top center;
+            /* Ensures image is contained properly */
+            object-fit: contain; 
             transition: all 0.5s ease;
         }
 
