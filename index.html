@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naheel K K | Software Engineer</title>
+    <!-- CSS FIX: Reliable Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -92,7 +93,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Photo Frame & Image Handling */
+        /* Photo Frame & Aura Animation */
         .photo-frame {
             position: relative;
             background: var(--bg);
@@ -102,6 +103,25 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg, transparent, var(--primary), transparent 30%);
+            animation: rotate-aura 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-frame:hover::before {
+            opacity: 0.3;
+        }
+
+        @keyframes rotate-aura {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .photo-frame:hover {
@@ -120,6 +140,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 1;
         }
 
         .image-container img {
@@ -130,29 +151,79 @@
             transition: all 0.5s ease;
         }
 
-        .image-container.loading::after {
+        /* Superhero Energy Surge */
+        .energy-surge {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .energy-surge::after {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            animation: loading-shimmer 1.5s infinite;
+            top: -50%;
+            left: -150%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(251, 191, 36, 0.2),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: left 0.6s ease;
         }
 
-        @keyframes loading-shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .energy-surge:hover::after {
+            left: 150%;
         }
 
-        .fallback-icon {
+        /* Resume Modal Styling */
+        #resume-modal {
             display: none;
-            color: var(--border);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
-        .image-error .fallback-icon {
-            display: block;
+        #resume-modal.active {
+            display: flex;
+            opacity: 1;
         }
-        .image-error img {
-            display: none;
+
+        .resume-content {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modal-slide 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        @keyframes modal-slide {
+            from { transform: translateY(50px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            box-shadow: 0 0 15px var(--primary);
+            animation: scan-move 4s linear infinite;
+        }
+
+        @keyframes scan-move {
+            0% { top: 0; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
         }
 
         /* Section Reveal */
@@ -211,6 +282,69 @@
         </div>
     </div>
 
+    <!-- Resume Modal -->
+    <div id="resume-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="resume-content rounded-2xl relative p-8 sm:p-12">
+            <div class="scan-line"></div>
+            <button id="close-resume" class="absolute top-6 right-6 p-2 text-gray-500 hover:text-yellow-400 transition-colors">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            
+            <div class="space-y-12">
+                <header class="border-b border-[var(--border)] pb-8">
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase italic tracking-tighter">Naheel K K</h2>
+                    <p class="text-yellow-400 font-bold uppercase tracking-widest text-sm mt-2">Software Engineer Disciple</p>
+                </header>
+
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="md:col-span-2 space-y-10">
+                        <section>
+                            <h4 class="text-xs font-black uppercase tracking-[0.3em] text-gray-500 mb-6 flex items-center gap-3">
+                                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span> MISSION_LOG
+                            </h4>
+                            <div class="space-y-8">
+                                <div class="border-l-2 border-yellow-400/20 pl-6">
+                                    <h5 class="text-xl font-bold uppercase italic">Master of Computer Applications</h5>
+                                    <p class="text-sm text-gray-400 uppercase font-black tracking-widest mt-1">MES College of Engineering | 2024 - 2026</p>
+                                    <p class="text-gray-500 mt-4 leading-relaxed">Focusing on complex software architectures, distributed systems, and modern AI paradigms. Maintaining a steady 8.7 CGPA performance.</p>
+                                </div>
+                                <div class="border-l-2 border-[var(--border)] pl-6">
+                                    <h5 class="text-xl font-bold uppercase italic">B.Voc Software Development</h5>
+                                    <p class="text-sm text-gray-400 uppercase font-black tracking-widest mt-1">Farook College | 2021 - 2024</p>
+                                    <p class="text-gray-500 mt-4 leading-relaxed">Completed a rigorous 3-year arc in vocational software engineering with a high CGPA of 9.25.</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="space-y-10">
+                        <section>
+                            <h4 class="text-xs font-black uppercase tracking-[0.3em] text-gray-500 mb-6">TECH_SPECS</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-400/10 text-yellow-500 px-3 py-1 rounded text-[10px] font-black uppercase">React</span>
+                                <span class="bg-yellow-400/10 text-yellow-500 px-3 py-1 rounded text-[10px] font-black uppercase">TypeScript</span>
+                                <span class="bg-yellow-400/10 text-yellow-500 px-3 py-1 rounded text-[10px] font-black uppercase">Node.js</span>
+                                <span class="bg-yellow-400/10 text-yellow-500 px-3 py-1 rounded text-[10px] font-black uppercase">Python</span>
+                                <span class="bg-yellow-400/10 text-yellow-500 px-3 py-1 rounded text-[10px] font-black uppercase">Rust</span>
+                                <span class="bg-yellow-400/10 text-yellow-500 px-3 py-1 rounded text-[10px] font-black uppercase">SysDesign</span>
+                            </div>
+                        </section>
+                        <section>
+                            <h4 class="text-xs font-black uppercase tracking-[0.3em] text-gray-500 mb-6">COMM_LINK</h4>
+                            <ul class="text-xs font-bold space-y-4">
+                                <li><a href="mailto:kknaheel16@gmail.com" class="hover:text-yellow-400 transition-colors">KKNAHEEL16@GMAIL.COM</a></li>
+                                <li><a href="https://github.com/naheelkk" class="hover:text-yellow-400 transition-colors">GITHUB.COM/NAHEELKK</a></li>
+                            </ul>
+                        </section>
+                        <a href="resume.pdf" download class="block w-full text-center bg-yellow-400 text-black py-4 font-black uppercase tracking-widest text-xs rounded-xl hover:scale-[1.02] transition-transform">
+                            Download Source PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 backdrop-blur-md border-b border-[var(--border)] bg-[var(--bg)]/80">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -233,9 +367,9 @@
                     <button id="theme-toggle" class="p-2.5 border border-[var(--border)] rounded-xl hover:border-yellow-500 transition-all bg-[var(--bg)]">
                         <i data-lucide="sun" class="w-4 h-4" id="theme-icon"></i>
                     </button>
-                    <a href="resume.pdf" class="bg-yellow-400 text-black px-6 py-2.5 rounded-full text-[10px] font-black tracking-widest hover:scale-105 transition-transform">
+                    <button id="open-resume" class="energy-surge bg-yellow-400 text-black px-6 py-2.5 rounded-full text-[10px] font-black tracking-widest hover:scale-105 transition-transform">
                         RESUME
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -266,7 +400,7 @@
                 </p>
 
                 <div class="flex flex-wrap gap-6 pt-4">
-                    <a href="#projects" class="bg-yellow-400 text-black px-10 py-5 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-yellow-400/20 transition-all">
+                    <a href="#projects" class="energy-surge bg-yellow-400 text-black px-10 py-5 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-yellow-400/20 transition-all">
                         VIEW PROJECTS
                         <i data-lucide="arrow-down" class="w-4 h-4"></i>
                     </a>
@@ -284,7 +418,7 @@
             <div class="flex-1 flex justify-center lg:justify-end">
                 <div class="photo-frame max-w-sm w-full">
                     <div id="image-wrapper" class="image-container loading">
-                        <img src="image_cd6a6e.png" alt="Naheel K K" id="hero-img" class="transition-all duration-700">
+                        <img src="image_cd6a6e.jpg" alt="Naheel K K" id="hero-img" class="transition-all duration-700">
                         <div class="fallback-icon">
                             <i data-lucide="user" class="w-32 h-32 opacity-20"></i>
                         </div>
@@ -356,7 +490,7 @@
             </div>
             
             <div class="grid md:grid-cols-2 gap-10">
-                <div class="group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-2xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
+                <div class="energy-surge group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-2xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
                     <div class="flex justify-between items-start mb-10">
                         <div class="p-4 bg-yellow-400 text-black rounded-xl">
                             <i data-lucide="terminal" class="w-6 h-6"></i>
@@ -374,7 +508,7 @@
                     </a>
                 </div>
 
-                <div class="group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-2xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
+                <div class="energy-surge group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-2xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
                     <div class="flex justify-between items-start mb-10">
                         <div class="p-4 bg-[var(--text)] text-[var(--bg)] rounded-xl">
                             <i data-lucide="shield-check" class="w-6 h-6"></i>
@@ -401,15 +535,14 @@
                 <p class="text-gray-500 text-lg uppercase tracking-[0.4em] font-black">kknaheel16@gmail.com</p>
                 
                 <div class="flex flex-col items-center gap-10 pt-8">
-                    <a href="mailto:kknaheel16@gmail.com" class="bg-yellow-400 text-black px-16 py-6 rounded-xl text-xs font-black tracking-[0.3em] hover:scale-105 transition-transform flex items-center gap-4 shadow-2xl shadow-yellow-400/20">
+                    <a href="mailto:kknaheel16@gmail.com" class="energy-surge bg-yellow-400 text-black px-16 py-6 rounded-xl text-xs font-black tracking-[0.3em] hover:scale-105 transition-transform flex items-center gap-4 shadow-2xl shadow-yellow-400/20">
                         <i data-lucide="send" class="w-4 h-4"></i>
                         SEND MESSAGE
                     </a>
                     
                     <div class="flex flex-wrap justify-center gap-x-16 gap-y-6 pt-16 text-[10px] font-black tracking-[0.3em] uppercase opacity-40">
-                        <a href="https://github.com/naheelkk" class="hover:text-yellow-500 hover:opacity-100 transition-all">GitHub</a>
-                        <a href="https://www.linkedin.com/in/naheel-kk/" class="hover:text-yellow-500 hover:opacity-100 transition-all">LinkedIn</a>
-                        <a href="#" class="hover:text-yellow-500 hover:opacity-100 transition-all">Instagram</a>
+                        <a href="https://github.com/naheelkk" target="_blank" class="hover:text-yellow-500 hover:opacity-100 transition-all">GitHub</a>
+                        <a href="https://www.linkedin.com/in/naheel-kk/" target="_blank" class="hover:text-yellow-500 hover:opacity-100 transition-all">LinkedIn</a>
                     </div>
                 </div>
             </div>
@@ -418,7 +551,7 @@
     </main>
 
     <footer class="py-16 text-center text-[9px] font-black tracking-[0.3em] uppercase opacity-20">
-        &copy; 2024 NAHEEL K K. ALL SYSTEMS NOMINAL.
+        &copy; 2025 NAHEEL K K. ALL SYSTEMS NOMINAL.
     </footer>
 
     <script>
@@ -437,12 +570,35 @@
             lucide.createIcons();
         });
 
+        // Resume Modal Toggle
+        const openResume = document.getElementById('open-resume');
+        const closeResume = document.getElementById('close-resume');
+        const resumeModal = document.getElementById('resume-modal');
+
+        openResume.addEventListener('click', () => {
+            resumeModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeResume.addEventListener('click', () => {
+            resumeModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        resumeModal.addEventListener('click', (e) => {
+            if (e.target === resumeModal) {
+                resumeModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
         // Scroll Progress & Reveal
         window.onscroll = () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            document.getElementById("progress").style.width = scrolled + "%";
+            const progressBar = document.getElementById("progress");
+            if (progressBar) progressBar.style.width = scrolled + "%";
 
             document.querySelectorAll('.section-fade').forEach(section => {
                 const sectionTop = section.getBoundingClientRect().top;
@@ -457,14 +613,12 @@
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
                 
-                // If the link is just a hash "#", scroll to top
                 if (href === '#') {
                     e.preventDefault();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     return;
                 }
 
-                // Otherwise, try to scroll to the target ID
                 const target = document.querySelector(href);
                 if (target) {
                     e.preventDefault();
@@ -477,7 +631,7 @@
         const img = document.getElementById('hero-img');
         const wrapper = document.getElementById('image-wrapper');
 
-        if (img) {
+        if (img && wrapper) {
             img.onload = () => {
                 wrapper.classList.remove('loading');
             };
