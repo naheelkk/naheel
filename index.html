@@ -1,4 +1,3 @@
-<!-- redeploy -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,6 @@
     <title>Naheel K K | Software Engineer</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
-    <!-- Robust Tailwind Integration -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -35,14 +33,10 @@
             color: var(--text);
             transition: background-color 0.5s, color 0.5s;
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor for custom animation */
+            cursor: none;
         }
 
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Custom Cursor */
-        .cursor-dot,
-        .cursor-outline {
+        .cursor-dot, .cursor-outline {
             position: fixed;
             top: 0;
             left: 0;
@@ -52,20 +46,9 @@
             pointer-events: none;
         }
 
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--primary);
-        }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--primary); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--primary); transition: width 0.2s, height 0.2s, background-color 0.2s; }
 
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--primary);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-
-        /* Pixel Dust Trail */
         .pixel-dust {
             position: fixed;
             width: 4px;
@@ -76,350 +59,90 @@
             animation: dust-fade 1s forwards;
         }
 
-        @keyframes dust-fade {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
+        @keyframes dust-fade { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
 
-        /* Hover state for interactive elements */
-        body.hovering .cursor-outline {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(251, 191, 36, 0.1);
-            border-color: transparent;
-        }
+        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(251, 191, 36, 0.1); border-color: transparent; }
 
-        /* Background Grid - Increased Visibility */
-        .grid-container {
-            perspective: 1000px;
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.4; /* Increased from 0.2 */
-        }
-
+        .grid-container { perspective: 1000px; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; }
         .grid-plane {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background-image: 
-                linear-gradient(var(--border) 1.5px, transparent 1.5px),
-                linear-gradient(90deg, var(--border) 1.5px, transparent 1.5px);
-            background-size: 50px 50px;
-            transform: rotateX(60deg);
-            animation: grid-move 20s linear infinite;
+            position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+            background-image: linear-gradient(var(--border) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--border) 1.5px, transparent 1.5px);
+            background-size: 50px 50px; transform: rotateX(60deg); animation: grid-move 20s linear infinite;
         }
 
-        @keyframes grid-move {
-            from { transform: rotateX(60deg) translateY(0); }
-            to { transform: rotateX(60deg) translateY(50px); }
+        @keyframes grid-move { from { transform: rotateX(60deg) translateY(0); } to { transform: rotateX(60deg) translateY(50px); } }
+
+        .hero-icon { position: absolute; opacity: 0; color: var(--primary); animation: hero-float linear infinite; filter: drop-shadow(0 0 5px var(--primary)); }
+        @keyframes hero-float { 
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; } 
+            10% { opacity: 0.2; } 
+            90% { opacity: 0.2; } 
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; } 
         }
 
-        /* Floating Superhero Icons */
-        .hero-icon-container {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
+        .runner { width: 24px; height: 32px; background: var(--primary); border-radius: 4px; animation: bounce 0.5s infinite alternate; box-shadow: 0 0 15px var(--primary); }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+        .runner-track { mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); width: 200%; display: flex; animation: scroll 25s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .hero-icon {
-            position: absolute;
-            opacity: 0;
-            color: var(--primary);
-            animation: hero-float linear infinite;
-            filter: drop-shadow(0 0 5px var(--primary));
-        }
+        .photo-frame { position: relative; background: var(--bg); border: 2px solid var(--border); padding: 8px; border-radius: 24px; overflow: hidden; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: hero-pulse 3s infinite ease-in-out; }
+        @keyframes hero-pulse { 0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.1); } 50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.3); } }
+        .photo-frame::before { content: ''; position: absolute; inset: -100%; background: conic-gradient(from 0deg, transparent, var(--primary), transparent 40%); animation: rotate-aura 6s linear infinite; opacity: 0; transition: opacity 0.5s; }
+        .photo-frame:hover::before { opacity: 0.4; }
+        @keyframes rotate-aura { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .photo-frame:hover { transform: translateY(-12px) scale(1.03); border-color: var(--primary); }
+        .image-container { position: relative; width: 100%; aspect-ratio: 4 / 5; background: #111; border-radius: 16px; overflow: hidden; }
+        .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
-        @keyframes hero-float {
-            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
-            10% { opacity: 0.2; }
-            90% { opacity: 0.2; }
-            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
-        }
+        .energy-surge { position: relative; overflow: hidden; }
+        .energy-surge::after { content: ''; position: absolute; top: -50%; left: -150%; width: 60%; height: 200%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent); transform: rotate(35deg); transition: left 0.7s ease; }
+        .energy-surge:hover::after { left: 150%; }
 
-        /* Runner Animation */
-        .runner {
-            width: 24px;
-            height: 32px;
-            background: var(--primary);
-            border-radius: 4px;
-            position: relative;
-            animation: bounce 0.5s infinite alternate;
-            box-shadow: 0 0 15px var(--primary);
-        }
+        #resume-modal { display: none; opacity: 0; transition: all 0.5s ease; }
+        #resume-modal.active { display: flex; opacity: 1; }
+        .resume-content { background: var(--bg); border: 2px solid var(--border); max-width: 1000px; width: 95%; height: 90vh; overflow: hidden; position: relative; animation: modal-init 0.6s cubic-bezier(0.23, 1, 0.32, 1); box-shadow: 0 0 100px rgba(0,0,0,0.9); display: flex; flex-direction: column; }
+        @keyframes modal-init { 0% { transform: scale(0.8) translateY(100px); opacity: 0; filter: blur(10px); } 100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); } }
 
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-12px); }
-        }
-
-        .runner-track {
-            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-            width: 200%;
-            display: flex;
-            animation: scroll 25s linear infinite;
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Hero Image Frame with Aura */
-        .photo-frame {
-            position: relative;
-            background: var(--bg);
-            border: 2px solid var(--border);
-            padding: 8px;
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            /* Pulse animation for Superhero vibe */
-            animation: hero-pulse 3s infinite ease-in-out;
-        }
-
-        @keyframes hero-pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.1); }
-            50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.3); }
-        }
-
-        .photo-frame::before {
-            content: '';
-            position: absolute;
-            inset: -100%;
-            background: conic-gradient(from 0deg, transparent, var(--primary), transparent 40%);
-            animation: rotate-aura 6s linear infinite;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        .photo-frame:hover::before {
-            opacity: 0.4;
-        }
-
-        @keyframes rotate-aura {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .photo-frame:hover {
-            transform: translateY(-12px) scale(1.03);
-            border-color: var(--primary);
-        }
-
-        
- .image-container {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;   /* 🔥 key fix */
-    background: #111;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;     /* 🔥 important */
-    object-position: center;
-}
-
-
-        .photo-frame:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Energy Surge Effect */
-        .energy-surge {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .energy-surge::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -150%;
-            width: 60%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                transparent,
-                rgba(255, 255, 255, 0.4),
-                transparent
-            );
-            transform: rotate(35deg);
-            transition: left 0.7s ease;
-        }
-
-        .energy-surge:hover::after {
-            left: 150%;
-        }
-
-        /* Cool Resume Modal */
-        #resume-modal {
-            display: none;
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-
-        #resume-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .resume-content {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            max-width: 1000px;
-            width: 95%;
-            height: 90vh;
-            overflow: hidden;
-            position: relative;
-            animation: modal-init 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 0 100px rgba(0,0,0,0.9);
-            display: flex;
-            flex-direction: column;
-        }
-
-        @keyframes modal-init {
-            0% { transform: scale(0.8) translateY(100px); opacity: 0; filter: blur(10px); }
-            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
-        }
-
-        .scan-line {
-            width: 100%;
-            height: 4px;
-            background: var(--primary);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 20;
-            box-shadow: 0 0 20px var(--primary);
-            animation: scan-loop 5s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scan-loop {
-            0%, 100% { top: 0; opacity: 0; }
-            5% { opacity: 1; }
-            95% { opacity: 1; }
-            50% { top: 100%; }
-        }
-
-        /* Section Reveal */
-        .section-fade {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .section-fade.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        #progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: var(--primary);
-            z-index: 200;
-            width: 0%;
-            transition: width 0.1s ease;
-        }
+        .section-fade { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .section-fade.visible { opacity: 1; transform: translateY(0); }
+        #progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); z-index: 200; width: 0%; transition: width 0.1s ease; }
     </style>
 </head>
 <body class="dark-theme">
-    <!-- Custom Cursor Elements -->
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
-
     <div id="progress"></div>
 
-    <!-- Background Elements -->
-    <div class="grid-container">
-        <div class="grid-plane"></div>
-    </div>
+    <div class="grid-container"><div class="grid-plane"></div></div>
 
-    <!-- Background Superhero Floating Icons -->
     <div class="hero-icon-container">
-        <!-- Shields, Bolts, and Stars floating up -->
         <i data-lucide="zap" class="hero-icon" style="left: 10%; width: 40px; height: 40px; animation-duration: 15s; animation-delay: 0s;"></i>
         <i data-lucide="shield" class="hero-icon" style="left: 25%; width: 60px; height: 60px; animation-duration: 20s; animation-delay: 2s;"></i>
         <i data-lucide="rocket" class="hero-icon" style="left: 60%; width: 50px; height: 50px; animation-duration: 18s; animation-delay: 5s;"></i>
         <i data-lucide="crown" class="hero-icon" style="left: 80%; width: 45px; height: 45px; animation-duration: 22s; animation-delay: 1s;"></i>
         <i data-lucide="star" class="hero-icon" style="left: 40%; width: 30px; height: 30px; animation-duration: 12s; animation-delay: 8s;"></i>
-        <i data-lucide="sword" class="hero-icon" style="left: 90%; width: 55px; height: 55px; animation-duration: 25s; animation-delay: 3s;"></i>
-        <!-- Extra small particles -->
-        <i data-lucide="zap" class="hero-icon" style="left: 5%; width: 20px; height: 20px; animation-duration: 10s; animation-delay: 12s;"></i>
-        <i data-lucide="star" class="hero-icon" style="left: 95%; width: 25px; height: 25px; animation-duration: 14s; animation-delay: 6s;"></i>
     </div>
 
-    <!-- Background Runner (Superhero Animation) -->
-    <div class="fixed bottom-12 left-0 w-full overflow-hidden z-0 opacity-10 pointer-events-none">
-        <div class="runner-track">
-            <div class="flex space-x-64 px-32">
-                <div class="flex flex-col items-center"><div class="runner"></div></div>
-                <div class="flex flex-col items-center"><div class="runner"></div></div>
-                <div class="flex flex-col items-center"><div class="runner"></div></div>
-            </div>
-            <div class="flex space-x-64 px-32">
-                <div class="flex flex-col items-center"><div class="runner"></div></div>
-                <div class="flex flex-col items-center"><div class="runner"></div></div>
-                <div class="flex flex-col items-center"><div class="runner"></div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cool Resume Modal -->
     <div id="resume-modal" class="fixed inset-0 z-[1000] items-center justify-center p-4 bg-black/90 backdrop-blur-xl">
         <div class="resume-content rounded-3xl relative p-6 sm:p-8 border-yellow-400/20">
-            <div class="scan-line"></div>
-            
             <header class="flex justify-between items-center border-b border-[var(--border)] pb-6 mb-4 shrink-0">
-                <div>
-                    <h2 class="text-3xl font-black uppercase italic tracking-tighter">Resume Preview</h2>
-                    <p class="text-yellow-400 font-bold uppercase tracking-widest text-[10px] mt-1">Naheel K K</p>
-                </div>
+                <div><h2 class="text-3xl font-black uppercase italic tracking-tighter">Resume Preview</h2></div>
                 <div class="flex items-center gap-4">
-                    <a href="Resume.pdf" download class="energy-surge bg-yellow-400 text-black px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-yellow-400/20 flex items-center gap-2">
-                        <i data-lucide="download" class="w-4 h-4"></i> DOWNLOAD
-                    </a>
-                    <button id="close-resume" class="p-2 text-zinc-500 hover:text-yellow-400 hover:rotate-90 transition-all duration-300">
-                        <i data-lucide="x" class="w-8 h-8"></i>
-                    </button>
+                    <button id="close-resume" class="p-2 text-zinc-500 hover:text-yellow-400 hover:rotate-90 transition-all duration-300"><i data-lucide="x" class="w-8 h-8"></i></button>
                 </div>
             </header>
-
-            <div class="flex-grow w-full bg-zinc-900 rounded-xl overflow-hidden border border-[var(--border)] relative">
-                <iframe src="Resume.pdf" class="w-full h-full" title="Resume PDF">
-                    <div class="w-full h-full flex flex-col items-center justify-center text-zinc-500 space-y-4">
-                        <i data-lucide="file-text" class="w-16 h-16 opacity-20"></i>
-                        <p class="text-sm font-medium">Preview unavailable. Please download the file.</p>
-                    </div>
-                </iframe>
+            <div class="flex-grow w-full bg-zinc-900 rounded-xl overflow-hidden border border-[var(--border)]">
+                <iframe src="Resume (6).pdf" class="w-full h-full" title="Resume PDF"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="sticky top-0 z-[500] backdrop-blur-md border-b border-[var(--border)] bg-[var(--bg)]/80">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-4 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <div class="w-10 h-10 bg-[var(--text)] text-[var(--bg)] flex items-center justify-center font-black rounded-xl border border-[var(--border)] group-hover:bg-yellow-400 transition-colors">
-                    N
-                </div>
+                <div class="w-10 h-10 bg-[var(--text)] text-[var(--bg)] flex items-center justify-center font-black rounded-xl border border-[var(--border)] group-hover:bg-yellow-400 transition-colors">N</div>
                 <span class="font-extrabold tracking-tighter uppercase text-sm hidden sm:block">Naheel K K</span>
             </div>
-            
             <div class="flex items-center space-x-8">
                 <div class="hidden md:flex space-x-10 text-[10px] font-black tracking-[0.2em] uppercase">
                     <a href="#home" class="hover:text-yellow-500 transition-colors">Home</a>
@@ -427,23 +150,13 @@
                     <a href="#projects" class="hover:text-yellow-500 transition-colors">Projects</a>
                     <a href="#contact" class="hover:text-yellow-500 transition-colors">Contact</a>
                 </div>
-                
-                <div class="flex items-center space-x-4">
-                    <button id="theme-toggle" class="p-2.5 border border-[var(--border)] rounded-xl hover:border-yellow-500 transition-all bg-[var(--bg)]">
-                        <i data-lucide="sun" class="w-4 h-4" id="theme-icon"></i>
-                    </button>
-                    <button id="open-resume" class="energy-surge bg-yellow-400 text-black px-6 py-2.5 rounded-full text-[10px] font-black tracking-widest hover:scale-105 active:scale-95 transition-all">
-                        RESUME
-                    </button>
-                </div>
+                <button id="theme-toggle" class="p-2.5 border border-[var(--border)] rounded-xl hover:border-yellow-500 transition-all bg-[var(--bg)]"><i data-lucide="sun" class="w-4 h-4" id="theme-icon"></i></button>
+                <button id="open-resume" class="energy-surge bg-yellow-400 text-black px-6 py-2.5 rounded-full text-[10px] font-black tracking-widest hover:scale-105 transition-all">RESUME</button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-6 relative z-10">
-        
-        <!-- Hero Section -->
         <section id="home" class="min-h-[calc(100vh-80px)] flex flex-col lg:flex-row items-center justify-center gap-20 py-20 section-fade visible">
             <div class="flex-1 space-y-12">
                 <div class="inline-flex items-center space-x-3 px-4 py-2 border border-[var(--border)] rounded-full bg-[var(--border)]/10 text-[10px] font-black tracking-[0.3em] uppercase text-yellow-500">
@@ -453,86 +166,23 @@
                     </span>
                     <span>Systems Architect</span>
                 </div>
-                
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] uppercase italic">
-                    Engineering <br>
-                    <span class="text-transparent" style="-webkit-text-stroke: 1.5px var(--text);">The</span> <br>
-                    Future.
-                </h1>
-
-                <p class="max-w-xl text-lg text-zinc-500 leading-relaxed font-medium">
-                    Hello, I'm Naheel. I am an aspiring software engineer currently pursuing my MCA. I am dedicated to building efficient, scalable, and meaningful software solutions for the modern web.
-                </p>
-
+                <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] uppercase italic">Engineering <br><span class="text-transparent" style="-webkit-text-stroke: 1.5px var(--text);">The</span> <br>Future.</h1>
+                <p class="max-w-xl text-lg text-zinc-500 leading-relaxed font-medium">Aspiring software engineer currently pursuing MCA. Dedicated to building efficient, scalable, and meaningful software solutions.</p>
                 <div class="flex flex-wrap gap-6 pt-4">
-                    <a href="#projects" class="energy-surge bg-yellow-400 text-black px-10 py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center gap-4 hover:shadow-2xl hover:shadow-yellow-400/20 transition-all">
-                        VIEW PROJECTS
-                        <i data-lucide="arrow-down" class="w-4 h-4"></i>
-                    </a>
+                    <a href="#projects" class="energy-surge bg-yellow-400 text-black px-10 py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center gap-4 transition-all">VIEW PROJECTS <i data-lucide="arrow-down" class="w-4 h-4"></i></a>
                     <div class="flex space-x-3">
-                        <a href="https://github.com/naheelkk" target="_blank" class="p-5 border border-[var(--border)] rounded-2xl hover:border-yellow-500 hover:bg-yellow-400/5 transition-all">
-                            <i data-lucide="github" class="w-5 h-5"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/naheel-kk/" target="_blank" class="p-5 border border-[var(--border)] rounded-2xl hover:border-yellow-500 hover:bg-yellow-400/5 transition-all">
-                            <i data-lucide="linkedin" class="w-5 h-5"></i>
-                        </a>
+                        <a href="https://github.com/naheelkk" target="_blank" class="p-5 border border-[var(--border)] rounded-2xl hover:border-yellow-500 transition-all"><i data-lucide="github" class="w-5 h-5"></i></a>
+                        <a href="https://www.linkedin.com/in/naheel-kk/" target="_blank" class="p-5 border border-[var(--border)] rounded-2xl hover:border-yellow-500 transition-all"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
                     </div>
                 </div>
             </div>
-
             <div class="flex-1 flex justify-center lg:justify-end">
                 <div class="photo-frame max-w-sm w-full">
-                    <div id="image-wrapper" class="image-container loading">
-                        <!-- Path fixed from .jpg to .png to match uploaded file extension -->
-                        <img src="image_cd6a6e.png" alt="Naheel K K" id="hero-img" class="transition-all duration-700">
-                        <div class="fallback-icon">
-                            <i data-lucide="user" class="w-32 h-32 opacity-10"></i>
-                        </div>
-                    </div>
+                    <div id="image-wrapper" class="image-container"><img src="image_cd6a6e.png" alt="Naheel K K" id="hero-img"></div>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="py-40 section-fade">
-            <div class="flex flex-col md:flex-row gap-24">
-                <div class="md:w-1/3 space-y-8">
-                    <h2 class="text-5xl font-black uppercase italic tracking-tighter leading-none">Academic <br>Arc.</h2>
-                    <p class="text-zinc-500 font-bold uppercase tracking-widest text-[10px] leading-loose">A sequential record of training and academic performance.</p>
-                </div>
-                
-                <div class="md:w-2/3 space-y-16 relative border-l-2 border-[var(--border)] pl-10">
-                    <div class="relative group">
-                        <div class="absolute -left-[49px] top-1.5 w-6 h-6 bg-yellow-400 rounded-full border-4 border-[var(--bg)] shadow-[0_0_20px_rgba(251,191,36,0.3)]"></div>
-                        <div class="space-y-4">
-                            <h3 class="text-3xl font-black uppercase tracking-tight italic">MCA Graduate Studies</h3>
-                            <p class="text-[10px] font-black text-zinc-500 uppercase tracking-widest">MES College of Engineering | 2024 - 2026</p>
-                            <p class="text-zinc-500 leading-relaxed max-w-xl font-medium">Currently maintaining a high Achievement Level of 8.7 CGPA while specializing in advanced AI and cloud systems.</p>
-                        </div>
-                    </div>
-
-                    <div class="relative group">
-                        <div class="absolute -left-[49px] top-1.5 w-6 h-6 bg-[var(--border)] rounded-full border-4 border-[var(--bg)] group-hover:bg-yellow-400 transition-colors"></div>
-                        <div class="space-y-4">
-                            <h3 class="text-3xl font-black uppercase tracking-tight italic">B.Voc Software Development</h3>
-                            <p class="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Farook College | 2021 - 2024</p>
-                            <p class="text-zinc-500 leading-relaxed max-w-xl font-medium">Graduated with a stellar performance of 9.25 CGPA, focusing on real-world application building.</p>
-                        </div>
-                    </div>
-
-                    <div class="relative group">
-                        <div class="absolute -left-[49px] top-1.5 w-6 h-6 bg-[var(--border)] rounded-full border-4 border-[var(--bg)] group-hover:bg-yellow-400 transition-colors"></div>
-                        <div class="space-y-4">
-                            <h3 class="text-3xl font-black uppercase tracking-tight italic">Higher Secondary Arc</h3>
-                            <p class="text-[10px] font-black text-zinc-500 uppercase tracking-widest">GHSS THRIKKAVU | 2019 - 2021</p>
-                            <p class="text-zinc-500 leading-relaxed max-w-xl font-medium">Foundation in Computer Science and Pure Sciences with a 97% aggregate score.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
         <section id="projects" class="py-40 section-fade">
             <div class="flex items-center gap-6 mb-20">
                 <h2 class="text-5xl font-black uppercase italic tracking-tighter">Projects.</h2>
@@ -540,57 +190,74 @@
             </div>
             
             <div class="grid md:grid-cols-2 gap-10">
+                <!-- ALPS Project (Updated to Adaptive Learning Path Support System) -->
+                <div class="energy-surge group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-3xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
+                    <div class="flex justify-between items-start mb-12">
+                        <div class="p-5 bg-yellow-400 text-black rounded-2xl">
+                            <i data-lucide="route" class="w-8 h-8"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">PYTHON</span>
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">AI</span>
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">EDTECH</span>
+                        </div>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">ALPS</h3>
+                    <p class="text-zinc-500 mb-12 leading-relaxed font-medium">Adaptive Learning Path Support System designed to orchestrate personalized educational trajectories by dynamically adjusting content based on real-time learner cognitive profiling.</p>
+                    <a href="https://github.com/naheelkk/ALPS_" target="_blank" class="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] group-hover:gap-6 transition-all">
+                        VIEW_UPLINK <i data-lucide="arrow-right" class="w-4 h-4 text-yellow-500"></i>
+                    </a>
+                </div>
+
                 <!-- Factify Project -->
                 <div class="energy-surge group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-3xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
                     <div class="flex justify-between items-start mb-12">
-                        <div class="p-5 bg-yellow-400 text-black rounded-2xl">
+                        <div class="p-5 bg-[var(--text)] text-[var(--bg)] rounded-2xl">
                             <i data-lucide="newspaper" class="w-8 h-8"></i>
                         </div>
                         <div class="flex gap-2">
-                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">PYTHON</span>
-                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">FASTAPI</span>
                             <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">BERT</span>
-                        </div>
-                    </div>
-                    <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">Factify</h3>
-                    <p class="text-zinc-500 mb-12 leading-relaxed font-medium">Advanced fake news detection system combining BERT classification with multi-source AI explanations and real-time fact-checking.</p>
-                    <a href="https://github.com/naheelkk" target="_blank" class="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] group-hover:gap-6 transition-all">
-                        VIEW_UPLINK <i data-lucide="arrow-right" class="w-4 h-4 text-yellow-500"></i>
-                    </a>
-                </div>
-
-                <!-- Intrusion Detection System Project -->
-                <div class="energy-surge group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-3xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
-                    <div class="flex justify-between items-start mb-12">
-                        <div class="p-5 bg-[var(--text)] text-[var(--bg)] rounded-2xl">
-                            <i data-lucide="shield-alert" class="w-8 h-8"></i>
-                        </div>
-                        <div class="flex gap-2">
-                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">PYTHON</span>
-                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">SCAPY</span>
                             <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">ML</span>
                         </div>
                     </div>
-                    <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">Intrusion Detection</h3>
-                    <p class="text-zinc-500 mb-12 leading-relaxed font-medium">Network traffic monitoring system using signature-based rules and Isolation Forest algorithms to detect security threats.</p>
+                    <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">Factify</h3>
+                    <p class="text-zinc-500 mb-12 leading-relaxed font-medium">Advanced fake news detection system combining BERT classification with multi-source AI explanations.</p>
                     <a href="https://github.com/naheelkk" target="_blank" class="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] group-hover:gap-6 transition-all">
                         VIEW_UPLINK <i data-lucide="arrow-right" class="w-4 h-4 text-yellow-500"></i>
                     </a>
                 </div>
 
-                <!-- RAG-LangChain Project -->
+                <!-- Intrusion Detection System -->
                 <div class="energy-surge group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-3xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
                     <div class="flex justify-between items-start mb-12">
                         <div class="p-5 bg-yellow-400 text-black rounded-2xl">
+                            <i data-lucide="shield-alert" class="w-8 h-8"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">NETWORK</span>
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">CYBER</span>
+                        </div>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">Intrusion Detection</h3>
+                    <p class="text-zinc-500 mb-12 leading-relaxed font-medium">Real-time network monitoring system using anomaly detection to secure infrastructure against threats.</p>
+                    <a href="https://github.com/naheelkk" target="_blank" class="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] group-hover:gap-6 transition-all">
+                        VIEW_UPLINK <i data-lucide="arrow-right" class="w-4 h-4 text-yellow-500"></i>
+                    </a>
+                </div>
+
+                <!-- RAG-LangChain -->
+                <div class="energy-surge group p-10 border border-[var(--border)] bg-[var(--bg)] rounded-3xl hover:border-yellow-400 hover:-translate-y-2 transition-all duration-500">
+                    <div class="flex justify-between items-start mb-12">
+                        <div class="p-5 bg-[var(--text)] text-[var(--bg)] rounded-2xl">
                             <i data-lucide="brain-circuit" class="w-8 h-8"></i>
                         </div>
                         <div class="flex gap-2">
-                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">LANGCHAIN</span>
-                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">FAISS</span>
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">LLM</span>
+                            <span class="text-[9px] font-black bg-[var(--border)]/30 px-3 py-1.5 rounded uppercase tracking-widest">VECTOR</span>
                         </div>
                     </div>
                     <h3 class="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-yellow-400 transition-colors">RAG-LangChain</h3>
-                    <p class="text-zinc-500 mb-12 leading-relaxed font-medium">Retrieval Augmented Generation system enabling natural language querying of local markdown documents using LLMs.</p>
+                    <p class="text-zinc-500 mb-12 leading-relaxed font-medium">Retrieval Augmented Generation system enabling natural language querying of local document datasets.</p>
                     <a href="https://github.com/naheelkk" target="_blank" class="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] group-hover:gap-6 transition-all">
                         VIEW_UPLINK <i data-lucide="arrow-right" class="w-4 h-4 text-yellow-500"></i>
                     </a>
@@ -598,26 +265,19 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="py-40 section-fade border-t border-[var(--border)]">
             <div class="max-w-4xl mx-auto text-center space-y-16">
                 <h2 class="text-8xl md:text-[10rem] font-black uppercase italic tracking-tighter leading-none">CONNECT.</h2>
                 <p class="text-zinc-500 text-lg uppercase tracking-[0.5em] font-black">kknaheel16@gmail.com</p>
-                
                 <div class="flex flex-col items-center gap-12 pt-8">
-                   <a href="mailto:kknaheel16@gmail.com" 
-                      style="pointer-events:auto;" class="energy-surge bg-yellow-400 text-black px-20 py-8 rounded-2xl text-[10px] font-black tracking-[0.4em] hover:scale-105 transition-all shadow-2xl shadow-yellow-400/20 cursor-pointer" style="pointer-events: auto;">
-    ESTABLISH CONTACT
-</a>
-                    
-                    <div class="flex gap-20 text-[10px] font-black tracking-[0.4em] uppercase opacity-30">
-                        <a href="https://github.com/naheelkk" target="_blank" class="hover:text-yellow-500 hover:opacity-100 transition-all">GitHub</a>
-                        <a href="https://www.linkedin.com/in/naheel-kk/" target="_blank" class="hover:text-yellow-500 hover:opacity-100 transition-all">LinkedIn</a>
+                   <a href="mailto:kknaheel16@gmail.com" class="energy-surge bg-yellow-400 text-black px-20 py-8 rounded-2xl text-[10px] font-black tracking-[0.4em] hover:scale-105 transition-all shadow-2xl shadow-yellow-400/20">ESTABLISH CONTACT</a>
+                   <div class="flex gap-20 text-[10px] font-black tracking-[0.4em] uppercase opacity-30">
+                        <a href="https://github.com/naheelkk" target="_blank" class="hover:text-yellow-500 transition-all">GitHub</a>
+                        <a href="https://www.linkedin.com/in/naheel-kk/" target="_blank" class="hover:text-yellow-500 transition-all">LinkedIn</a>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="py-20 text-center text-[8px] font-black tracking-[0.5em] uppercase opacity-20">
@@ -625,10 +285,8 @@
     </footer>
 
     <script>
-        // Initialize Icons
         lucide.createIcons();
 
-        // Theme Logic
         const body = document.body;
         const themeBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
@@ -640,132 +298,47 @@
             lucide.createIcons();
         });
 
-        // Interactive Resume Modal
         const openBtn = document.getElementById('open-resume');
         const closeBtn = document.getElementById('close-resume');
         const modal = document.getElementById('resume-modal');
 
-        openBtn.addEventListener('click', () => {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+        openBtn.addEventListener('click', () => { modal.classList.add('active'); body.style.overflow = 'hidden'; });
+        closeBtn.addEventListener('click', () => { modal.classList.remove('active'); body.style.overflow = 'auto'; });
 
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Global Scroll Progress
         window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const winScroll = document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            const progress = document.getElementById("progress");
-            if (progress) progress.style.width = scrolled + "%";
+            document.getElementById("progress").style.width = scrolled + "%";
 
-            // Scroll Reveal Logic
             document.querySelectorAll('.section-fade').forEach(el => {
                 const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 100) {
-                    el.classList.add('visible');
-                }
+                if (rect.top < window.innerHeight - 100) el.classList.add('visible');
             });
         });
 
-        // Smooth Scroll Handling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#') {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    const target = document.querySelector(href);
-                    if (target) {
-                        e.preventDefault();
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
-        });
-
-        // Image State Logic
-        const img = document.getElementById('hero-img');
-        const wrapper = document.getElementById('image-wrapper');
-
-        if (img) {
-            img.onload = () => wrapper.classList.remove('loading');
-            img.onerror = () => {
-                wrapper.classList.remove('loading');
-                wrapper.parentElement.classList.add('image-error');
-            };
-            // Initial check for cached images
-            if (img.complete) wrapper.classList.remove('loading');
-        }
-
-        // Custom Cursor Logic
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
-
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            // Move the small dot immediately
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Move the outline with a slight delay for smooth effect
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-
-            // Create pixel dust trail
-            createPixelDust(posX, posY);
-        });
-
-        // Add hover effect for interactive elements
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
+            createPixelDust(e.clientX, e.clientY);
         });
 
         function createPixelDust(x, y) {
             const dust = document.createElement('div');
             dust.classList.add('pixel-dust');
             document.body.appendChild(dust);
-
-            const size = Math.random() * 4 + 2; // Random size between 2px and 6px
-            dust.style.width = `${size}px`;
-            dust.style.height = `${size}px`;
-            dust.style.left = `${x}px`;
-            dust.style.top = `${y}px`;
-
-            // Random movement for the dust
-            const randomX = (Math.random() - 0.5) * 20;
-            const randomY = (Math.random() - 0.5) * 20;
-            
-            dust.animate([
-                { transform: `translate(0, 0) scale(1)`, opacity: 1 },
-                { transform: `translate(${randomX}px, ${randomY}px) scale(0)`, opacity: 0 }
-            ], {
-                duration: 800,
-                easing: 'ease-out',
-                fill: 'forwards'
-            });
-
-            setTimeout(() => {
-                dust.remove();
-            }, 800);
+            dust.style.left = `${x}px`; dust.style.top = `${y}px`;
+            dust.animate([{ transform: `translate(0, 0) scale(1)`, opacity: 1 }, { transform: `translate(${(Math.random()-0.5)*20}px, ${(Math.random()-0.5)*20}px) scale(0)`, opacity: 0 }], { duration: 800, fill: 'forwards' });
+            setTimeout(() => dust.remove(), 800);
         }
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
+        });
     </script>
 </body>
 </html>
